@@ -1,0 +1,10 @@
+.period {
+    width: 20%;
+    border: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+}
