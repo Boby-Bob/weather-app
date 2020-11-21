@@ -1,5 +1,59 @@
 .weathersystem {
+    width: 950px;
+    height: 600px;
+    margin: auto;
+    background-image: url(./img/ciel.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: repeat-y;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    margin: 40px;
+    width: 100%;
+}
+
+.content {
     display: flex;
     flex-wrap: wrap;
-    margin: 10px;
+    justify-content: space-between;
+    margin: auto 30px;
+    position: absolute;
+    bottom: 30px;
+}
+
+.text-city {
+    display: inline;
+    font-size: 1rem;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+.today {
+    height: 400px;
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.text {
+    text-align: left;
+}
+
+.content-today {
+    display: flex;
+    justify-content: center;
+}
+
+.content-today > img {
+    margin-right: 50px;
 }

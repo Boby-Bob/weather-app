@@ -1,0 +1,23 @@
+form {
+    width: 100%;
+}
+
+.form {
+    height: 28px;
+    width: 45%;
+    border-radius: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.submit {
+    background:  rgb(6, 40, 78);
+    border: 1px solid  rgb(13, 88, 173);
+    color: white;
+    display: none;
+}
+
+#submit:hover {
+    border: 1px solid  rgb(6, 40, 78);
+    cursor: pointer;
+}
