@@ -1,6 +1,6 @@
 .weathersystem {
     width: 950px;
-    height: 600px;
+    height: 630px;
     margin: auto;
     background-image: url(./img/ciel.jpg);
     background-position: center;
@@ -25,7 +25,7 @@
     justify-content: space-between;
     margin: auto 30px;
     position: absolute;
-    bottom: 30px;
+    bottom: 90px;
 }
 
 .text-city {
