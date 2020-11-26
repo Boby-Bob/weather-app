@@ -1,5 +1,5 @@
 .weathersystem {
-    width: 100%;
+    width: 80vw;
     max-height: 100vh;
     margin: auto;
     background-image: url(./img/ciel.jpg);
@@ -49,6 +49,9 @@ h1 {
 
 .text {
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .content-today {
@@ -58,8 +61,8 @@ h1 {
 
 .content-today > img {
     margin-right: 50px;
-    width: 200px;
-    height: 160px;
+    width: 300px;
+    height: 260px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -75,6 +78,10 @@ h1 {
     .today {
         height: auto;
         padding: 40px 20px;
+    }
+    .content-today > img {
+        width: 200px;
+        height: 160px;
     }
 }
 
