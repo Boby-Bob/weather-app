@@ -3,6 +3,9 @@ import axios from 'axios';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import 'moment/locale/fr';
+import geolocated from "react-geolocated";
+import Geocode from "react-geocode";
+
 
 import "./WeatherSystem.css";
 
@@ -24,20 +27,51 @@ class WeatherSystem extends Component {
 
     componentDidMount() {
 
-        axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=Lens&lang=fr&units=metric&appid=8c3a54c385c9c9d874d88f2cd6b3dda8`)
-        .then(res => {
-            console.log(res.data.list);
-            this.setState({
-                todayDate: res.data.list[0].dt_txt,
-                todayIcone: res.data.list[0].weather[0].icon,
-                todayTemp: res.data.list[0].main.temp.toFixed(0),
-                todayDescription: res.data.list[0].weather[0].description,
-                periods: res.data.list,
-                error: "",
-                country: res.data.city.country,
-                default: "Lens"
-            })
-        })
+        Geocode.setApiKey("AIzaSyCpgy1UJF3bTgAJAfld2lLmU31Jamr7IKI");
+
+        if ("geolocation" in navigator) {
+            console.log("Available");
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position.coords.latitude, position.coords.longitude);
+                Geocode.fromLatLng(position.coords.latitude, position.coords.longitude).then(
+                    (response) => {
+                        const address = response.results[0].formatted_address;
+                        console.log(address);
+                        let cityLocation;
+                        for (let i = 0; i < response.results[0].address_components.length; i++) {
+                            for (let j = 0; j < response.results[0].address_components[i].types.length; j++) {
+                                switch (response.results[0].address_components[i].types[j]) {
+                                    case "locality":
+                                        cityLocation = response.results[0].address_components[i].long_name;
+                                        break;
+                                }
+                            }
+                        }
+                        this.setState({ city: cityLocation })
+                        axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.city}&lang=fr&units=metric&appid=6eec445e25d0e2ae04cdd2ed239167fe`)
+                        .then(res => {
+                            console.log(res.data.list);
+                            this.setState({
+                                todayDate: res.data.list[0].dt_txt,
+                                todayIcone: res.data.list[0].weather[0].icon,
+                                todayTemp: res.data.list[0].main.temp.toFixed(0),
+                                todayDescription: res.data.list[0].weather[0].description,
+                                periods: res.data.list,
+                                error: "",
+                                country: res.data.city.country,
+                                default: ""
+                            })
+                        })
+                        console.log(this.state.city);    
+                    },
+                    (error) => {
+                      console.error(error);
+                    }
+                );
+              });
+          } else {
+            console.log("Not Available");
+        }
     }
 
     changeCity = (e) => {
@@ -48,7 +82,7 @@ class WeatherSystem extends Component {
 
     getWeather = (e) => {
         e.preventDefault();
-        axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.city}&lang=fr&units=metric&appid=8c3a54c385c9c9d874d88f2cd6b3dda8`)
+        axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.city}&lang=fr&units=metric&appid=6eec445e25d0e2ae04cdd2ed239167fe`)
         .then(res => {
             console.log(res.data);
             this.setState({
@@ -74,7 +108,7 @@ class WeatherSystem extends Component {
         let periodsList = this.state.periods
         .map(period => period.dt_txt.includes("12:00:00") ? <Period period={period} /> : "");
 
-        if (this.state.error === "") {
+        if (this.state.error === "" && this.state.city != undefined) {
             return ( 
                 <div className="weathersystem">
                     <div className="nav">
@@ -88,7 +122,7 @@ class WeatherSystem extends Component {
                         <div className="content-today">
                             <img src={`http://openweathermap.org/img/wn/${this.state.todayIcone}@4x.png`} alt=""/>
                             <div className="text">
-                                <h1>{this.state.default.length > 0 ? this.state.default : this.state.city}</h1>
+                                <h1>{this.state.city}</h1>
                                 <p>Température: {this.state.todayTemp} °C</p>
                                 <p>{this.state.todayDescription}</p>
 
